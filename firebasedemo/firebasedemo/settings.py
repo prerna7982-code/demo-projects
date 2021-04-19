@@ -98,9 +98,9 @@ DRF_FIREBASE_AUTH = {
 
     }
 
-# FIREBASE_DRF_FIREBASE_AUTH_API_KEY = \
-#     os.getenv('FIREBASE_DRF_FIREBASE_AUTH_API_KEY')
-FIREBASE_DRF_FIREBASE_AUTH_API_KEY ='AAAA1b8i5zE:APA91bGIUuprQXEBTngrSn5HUkecfg0eQ1x7kENjPWhK89eeu7JiNsQVUYgFgue_9cjqBFVH7f137yJ328mGmySpX-YN3G9OGrduInmtBpreJ6q81G4FeFwbFgBrFWi691tGYvmBTu8O'    
+FIREBASE_DRF_FIREBASE_AUTH_API_KEY = \
+    os.getenv('FIREBASE_DRF_FIREBASE_AUTH_API_KEY')
+# FIREBASE_DRF_FIREBASE_AUTH_API_KEY =     
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
