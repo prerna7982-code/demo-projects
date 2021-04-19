@@ -1,7 +1,7 @@
 from firebase import firebase
  
  
-firebase = firebase.FirebaseApplication('https://fir-demo-bdb32-default-rtdb.firebaseio.com/', None)
+firebase = firebase.FirebaseApplication(database_url, None)
 data =  { 'Name': 'Raj Singh',
           'RollNo': 3,
           'Percentage': 70.02
@@ -16,11 +16,11 @@ result2 = firebase.get('/python-example-bdb32/Students/', '')
 print(result2)
 
 #update data
-firebase.put('/python-example-bdb32/Students/-MYe3XBrn6iV7kij8QDD','Name','Bob')
+firebase.put('/python-example-bdb32/Students/<token>','Name','Bob')
 print('Record Updated')
 
 #delete data
-firebase.delete('/python-example-bdb32/Students/', '-MYe3XBrn6iV7kij8QDD')
+firebase.delete('/python-example-bdb32/Students/',<token>)
 print('Record Deleted')
 
 # data to save
