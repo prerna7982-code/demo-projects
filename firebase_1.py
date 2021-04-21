@@ -1,14 +1,9 @@
 from firebase import Firebase
 import requests
 from getpass import getpass
+from credentials imort *
 
-
-config = {
-  "apiKey": "AIzaSyA1iQODHkJgbiV5dFCWPTFuHOGBuwrtLVY",
-  "authDomain": "fir-demo-bdb32.firebaseapp.com",
-  "databaseURL": "https://fir-demo-bdb32-default-rtdb.firebaseio.com/",
-  "storageBucket": "fir-demo-bdb32.appspot.com"
-}
+config = credentials
 
 firebase = Firebase(config)
 auth = firebase.auth()
@@ -52,4 +47,5 @@ image = input("Please Enter image location : \n")
 
 storage.child("images/newimage.png").put(image)
 print("image_uploaded")
-print(storage.child("images/frog.png").get_url(token= 'MYcFi6D-faues7VYjwL'))
+user_id_token = ''
+print(storage.child("images/frog.png").get_url(token= user_idtoken))
