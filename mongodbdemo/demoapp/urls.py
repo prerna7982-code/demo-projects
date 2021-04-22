@@ -9,7 +9,7 @@ from django.conf.urls import url
 urlpatterns =[
 	path('posts/create/', AddPostapi.as_view(), name='AddPostapi'),
 	path('posts/update/<str:post_title>/', UpdatePost.as_view(), name='UpdatePost'),
-	path('posts/delete/<str:id>/', DeletePost.as_view(), name='DeletePost'),
+	path('posts/delete/<str:post_title>/', DeletePost.as_view(), name='DeletePost'),
 	path('posts/details/<str:post_title>/', DetailPost.as_view(), name='DetailPost'),
 	path('posts/list/', ListPosts.as_view(), name='ListPosts'),
 	# path('api/users/',UserDetailView.as_view()),

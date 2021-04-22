@@ -9,8 +9,12 @@ from django.views.decorators.csrf import csrf_exempt
 from .serializers import *
 from rest_framework import viewsets, status, generics
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.permissions import AllowAny,IsAuthenticated,IsAuthenticatedOrReadOnly
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 class AddPostapi(generics.CreateAPIView):
+	authentication_classes = [JWTAuthentication]
+	permission_classes = (IsAuthenticated,)
 	parser_classes = (FormParser, MultiPartParser)
 	queryset = Posts.objects.all()
 	# permission_classes = ()
@@ -30,6 +34,8 @@ class AddPostapi(generics.CreateAPIView):
 		return Response(data = {'status':'1',"message":"successfully created posts"})
 
 class UpdatePost(generics.UpdateAPIView):
+	authentication_classes = [JWTAuthentication]
+	permission_classes = (IsAuthenticated,)
 	parser_classes = (FormParser, MultiPartParser)
 	# queryset = Posts.objects.all()
 	serializer_class = PostCreateSerializer
@@ -43,19 +49,24 @@ class UpdatePost(generics.UpdateAPIView):
 		return Response(data = {'status':'1',"message":"successfully updated posts"} )
 
 class DeletePost(generics.GenericAPIView):
+	# authentication_classes = []
+	# permission_classes = (IsAuthenticated,)
 	parser_classes = (FormParser, MultiPartParser)
-	def post(self,request,id):
-		post=Posts.objects.get(_id=ObjectId(id))
+	def get(self,request,post_title):
+		post=Posts.objects.get(post_title=self.kwargs['post_title'])
 		post.delete()
 		return Response(data ={'message':"Post Deleted"})
 
 
 class ListPosts(generics.ListAPIView):
+	permission_classes = (AllowAny)
 	queryset = Posts.objects.all()
 	serializer_class = PostCreateSerializer
 
 
 class DetailPost(generics.RetrieveAPIView):
+	authentication_classes = [JWTAuthentication]
+	permission_classes = (IsAuthenticated,)
 	def get(self, request, *args,**kwargs):
 		queryset = Posts.objects.get(post_title=self.kwargs['post_title'])
 		d1 = queryset.post_title

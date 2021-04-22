@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'demoapp',
+    'authuser',
+    'drf_yasg',
+    # 'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +130,52 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# MANGO_JWT_SETTINGS = {
+#     "db_host": "127.0.0.1",
+#     "db_port": "27017",
+#     "db_name": "demodatabase",
+#     "db_user": "admin",
+#     "db_pass": "admin@12345",
+#     }
+#     # "auth_collection": "name_your_auth_collection", # default is "user_profile"
+    # "fields": ("email", "password"), # default
+    # "jwt_secret": "secret", # default
+    # "jwt_life": 7, # default (in days)
+    # "secondary_username_field": "mobile"
+
+
+AUTH_USER_MODEL = 'authuser.CustomUser'
+REST_FRAMEWORK = {
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        # 'rest_framework_social_oauth2.authentication.SocialAuthentication',
+    ]
+}
+
+from datetime import timedelta
+
+SIMPLE_JWT ={
+    'ACCESS_TOKEN_LIFETIME':timedelta(minutes=10),
+    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=15),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True
+}
+
+
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        },
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    }
+}
