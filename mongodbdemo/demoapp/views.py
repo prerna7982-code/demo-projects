@@ -12,6 +12,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny,IsAuthenticated,IsAuthenticatedOrReadOnly
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
+
 class AddPostapi(generics.CreateAPIView):
 	authentication_classes = [JWTAuthentication]
 	permission_classes = (IsAuthenticated,)
@@ -75,3 +76,5 @@ class DetailPost(generics.RetrieveAPIView):
 		d4 = queryset.tags
 		res = {"post_title":d1,"username":d3,"comment":d2,'tags':d4}
 		return Response(data= res)
+
+

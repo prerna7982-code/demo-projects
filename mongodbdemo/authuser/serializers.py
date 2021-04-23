@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model, password_validation
 # from rest_framework.authtoken.models import Token
 from rest_framework import serializers
-# from django.contrib.auth.models import BaseCustomUserManager
+from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.password_validation import validate_password
 from django.core.validators import RegexValidator
 import os
@@ -12,8 +12,8 @@ from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
-
+from .utils import *
+User = get_user_model()
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     @classmethod
@@ -22,6 +22,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         # Add custom claims
         token['username'] = user.username
+
         return token
 
 class UserLoginSerializer(serializers.Serializer):
@@ -31,6 +32,7 @@ class UserLoginSerializer(serializers.Serializer):
     password = serializers.CharField(required=True, write_only=True)
     def validate(self, attrs):
         self.token = attrs['access_token']
+        self.res = setRedis("access_token",self.token,43200)
         return attrs
 
 class AuthUserSerializer(serializers.ModelSerializer):
@@ -49,10 +51,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 	"""
 	A CustomUser serializer for registering the CustomUser
 	"""
-
 	class Meta:
 		model = CustomUser
-		fields = ('id','username','email','first_name', 'last_name','avatar')
+		fields = ('id','username','email','first_name', 'last_name','avatar','password')
 
 	def validate_CustomUsername(self, value):
 	    user = CustomUser.objects.filter(Username='Username')
@@ -65,7 +66,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 	#         raise serializers.ValidationError("CustomUsername with this phone number is already taken")
 	#     return value
 	def validate_email(self, value):
-		user = User.objects.filter(email='email')
+		user = CustomUser.objects.filter(email='email')
 		if user:
 			raise serializers.ValidationError("Username with this email is already taken")
 		return BaseUserManager.normalize_email(value)
@@ -117,13 +118,18 @@ class UpdateCustomUserSerializer(serializers.ModelSerializer):
 
 
 class LogoutSerializer(serializers.Serializer):
-    refresh = serializers.CharField()
+    access_token = serializers.CharField()
     def validate(self, attrs):
-        self.token = attrs['refresh']
+        self.token = attrs['access_token']
         return attrs
 
-    def save(self, **kwargs):
-        try:
-            RefreshToken(self.token).blacklist()
-        except:
-            raise serializers.ValidationError("Bad token")
+    # def save(self, **kwargs):
+    #     try:
+    #         RefreshToken(self.token).blacklist()
+    #     except:
+    #         raise serializers.ValidationError("Bad token")
+    def delete(self, **kwargs):
+    	try:
+    		res = setExpiry(self.token)
+    	except:
+    		raise serializers.ValidationError("Bad token")

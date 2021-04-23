@@ -52,6 +52,7 @@ class CustomUser(AbstractUser):
 	id = models.BigAutoField(auto_created=True, primary_key=True, serialize=True, verbose_name='ID')
 	username = models.CharField('username',unique=True, max_length=255, blank=False,null=False)
 	email = models.EmailField('email address', max_length=255, blank=True,null=True)
+	password = models.CharField(max_length= 126,blank=False)
 	first_name = models.CharField(verbose_name='first name', max_length=30, blank=True)
 	last_name = models.CharField(verbose_name='last name', max_length=30, blank=True)
 	is_active = models.BooleanField(default=True)

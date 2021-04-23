@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'demoapp',
     'authuser',
     'drf_yasg',
+    # 'oauth2_provider',
     # 'rest_framework_simplejwt.token_blacklist',
 ]
 

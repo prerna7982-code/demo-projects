@@ -45,9 +45,9 @@ class MyObtainTokenPairView(TokenObtainPairView):
 	serializer_class = MyTokenObtainPairSerializer
 
 class LoginApiView(generics.GenericAPIView):
-	authentication_classes = [JWTAuthentication]
+	# authentication_classes = [JWTAuthentication]
 	parser_classes = (FormParser, MultiPartParser)
-	permission_classes = (IsAuthenticated,)
+	# permission_classes = (IsAuthenticated,)
 	serializer_class = UserLoginSerializer
 	def post(self,request):
 		serializer = self.serializer_class(data=request.data)
@@ -75,5 +75,21 @@ class UserLogout(generics.GenericAPIView):
 		serializer = self.serializer_class(data=request.data)
 		serializer.is_valid(raise_exception=True)
 		serializer.save()
+
+		return Response(data = {"status":"1","message":"successfully logged out"})
+
+
+class UserLogout(generics.GenericAPIView):
+	# authentication_classes = [JWTAuthentication]
+	# parser_classes = (FormParser, MultiPartParser)
+	# permission_classes = (IsAuthenticated,)
+	serializer_class = LogoutSerializer
+
+	def post(self,request):
+		# logouttoken = request.POST.get("token")
+		# res = setExpiry(logouttoken)
+		serializer = self.serializer_class(data=request.data)
+		serializer.is_valid(raise_exception=True)
+		# serializer.save()
 
 		return Response(data = {"status":"1","message":"successfully logged out"})
